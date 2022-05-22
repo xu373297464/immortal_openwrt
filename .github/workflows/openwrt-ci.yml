@@ -5,7 +5,7 @@
 #
 # Copyright (C) 2020 KFERMercer
 #
-name:  ${{ github.ref }}
+name:  openwrt_ci
 
 on:
   workflow_dispatch:
@@ -14,7 +14,7 @@ jobs:
 
   build_openwrt:
 
-    name:   ${{ github.ref }}
+    name:   openwrt_ci
 
     runs-on: ubuntu-latest
 
