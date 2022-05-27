@@ -5,7 +5,7 @@
 #
 # Copyright (C) 2020 KFERMercer
 #
-name:  openwrt_ci
+name:   immortal_openwrt 88x2bu
 
 on:
   workflow_dispatch:
@@ -14,7 +14,7 @@ jobs:
 
   build_openwrt:
 
-    name:   openwrt_ci
+    name:   immortal_openwrt 88x2bu
 
     runs-on: ubuntu-latest
 
@@ -43,16 +43,24 @@ jobs:
           sed -i 's/#src-git helloworld/src-git helloworld/g' ./feeds.conf.default
           ./scripts/feeds update -a
           ./scripts/feeds install -a
+          
       - name: Generate configuration file
-        run: make defconfig
-
+        run: |
+          make defconfig
+          rm -rf .config
+          cp .config_immortalwrt_88x2bu .config
+          echo """""""""start print .config""""""""""""""
+          cat .config
+          echo """""""""end print .config""""""""""""""
+          
+        
       - name: Make download
         run: |
           make download -j8
           find dl -size -1024c -exec rm -f {} \;
       - name: Compile firmware
         run: |
-          make -j$(nproc) || make -j1 V=s
+          make -j$(nproc) || make -j8 V=s
           echo "======================="
           echo "Space usage:"
           echo "======================="
